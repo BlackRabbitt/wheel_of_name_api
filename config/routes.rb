@@ -7,4 +7,7 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   resources :healthz, only: [:index]
+  resources :items, only: [] do
+    get :random, on: :collection
+  end
 end

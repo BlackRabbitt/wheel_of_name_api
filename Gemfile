@@ -44,6 +44,8 @@ group :development, :test do
   gem 'dotenv-rails'
 end
 
+gem 'minitest-stub_any_instance', group: :test
+
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
