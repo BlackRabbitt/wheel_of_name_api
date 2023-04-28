@@ -12,7 +12,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 0) do
+ActiveRecord::Schema[7.0].define(version: 20_230_428_121_523) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
+
+  create_table 'items', force: :cascade do |t|
+    t.string 'name'
+    t.bigint 'room_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['room_id'], name: 'index_items_on_room_id'
+  end
+
+  create_table 'rooms', force: :cascade do |t|
+    t.string 'code'
+    t.string 'name'
+    t.boolean 'multiple', default: false, null: false
+    t.integer 'no_of_group'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
 end

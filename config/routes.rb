@@ -7,7 +7,13 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   resources :healthz, only: [:index]
-  resources :items, only: [] do
+  resources :items, only: %i[create] do
     get :random, on: :collection
+  end
+
+  resources :rooms, only: %i[create show] do
+    member do
+      get :result
+    end
   end
 end
