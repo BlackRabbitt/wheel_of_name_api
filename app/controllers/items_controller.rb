@@ -9,7 +9,7 @@ class ItemsController < ApplicationController
     if no_of_group.present?
       render json: { choices: RandomItemsService.new(array, no_of_group).call }
     else
-      render json: { choice: RandomItemService.new(array).call }
+      render json: { choices: [[RandomItemService.new(array).call]] }
     end
   end
 
