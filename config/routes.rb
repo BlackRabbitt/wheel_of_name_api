@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
+  mount ActionCable.server => '/cable'
+
   resources :healthz, only: [:index]
   resources :items, only: %i[create] do
     get :random, on: :collection

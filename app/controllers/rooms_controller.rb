@@ -20,11 +20,15 @@ class RoomsController < ApplicationController
     array = @room.items.map(&:name)
     no_of_group = @room.no_of_group
 
-    if @room.multiple
-      render json: { choices: RandomItemsService.new(array, no_of_group).call }
-    else
-      render json: { choices: [[RandomItemService.new(array).call]] }
-    end
+    result = if @room.multiple
+               { choices: RandomItemsService.new(array, no_of_group).call }
+             else
+               { choices: [[RandomItemService.new(array).call]] }
+             end
+
+    ActionCable.server.broadcast("result_#{@room.code}", result)
+
+    render json: result
   end
 
   private

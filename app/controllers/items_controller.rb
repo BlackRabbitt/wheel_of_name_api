@@ -6,17 +6,21 @@ class ItemsController < ApplicationController
     array = params[:array].split(',')
     no_of_group = params[:no_of_group]&.to_i
 
-    if no_of_group.present?
-      render json: { choices: RandomItemsService.new(array, no_of_group).call }
-    else
-      render json: { choices: [[RandomItemService.new(array).call]] }
-    end
+    result = if no_of_group.present?
+               { choices: RandomItemsService.new(array, no_of_group).call }
+             else
+               { choices: [[RandomItemService.new(array).call]] }
+             end
+
+    render json: result
   end
 
   def create
     item = @room.items.new(item_params)
 
     if item.save
+      ActionCable.server.broadcast("room_#{@room.code}", item)
+
       render json: { room: @room, item: item }
     else
       render json: { errors: item.errors.full_messages }, status: :unprocessable_entity
